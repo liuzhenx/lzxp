@@ -1,0 +1,14 @@
+SELECT stu.s_id,cou.c_name,sco.s_score FROM Student stu LEFT JOIN Score sco ON stu.s_id=sco.s_id LEFT JOIN Course cou ON sco.c_id=cou.c_id WHERE stu.s_name='赵雷';
+SELECT AVG(sco.s_score) FROM Score sc LEFT JOIN Cource cou ON sc.c_id=cou.c_id LEFT JOIN Teacher tea ON cou.t_id=tea.t_id WHERE tea.t_name='张三' 
+SELECT COUNT(*) FROM Student WHERE s_name LIKE '王%'
+SELECT stu.s_name,sco.s_score FROM Student stu LEFT JOIN (SELECT s_id,AVG(s_score) s_score FROM Score GROUP BY s_id) sco ON stu.s_id=sco.s_id WHERE sco.s_score>60
+SELECT stu.s_id,stu.s_name FROM Student stu LEFT JOIN Score sco ON stu.s_id=sco.s_id LEFT JOIN Course cou ON sco.c_id=cou.c_id LEFT JOIN Teacher tea ON cou.t_id=tea.t_id WHERE tea.t_name='李四'
+SELECT * FROM Student WHERE MONTH(Student.s_birth)=MONTH(CURDATE())
+SELECT stu.* FROM Student stu LEFT JOIN Score sc ON stu.s_id=sc.s_id LEFT JOIN Cource cou ON sc.c_id=cou.c_id LEFT JOIN Teacher tea ON cou.t_id=tea.t_id WHERE NOT tea.t_name='李四' 
+
+SELECT s1.sname FROM
+(SELECT stu.sname sname,tea.tname FROM student stu LEFT JOIN score sc ON stu.sid=sc.student_id LEFT JOIN course cou ON sc.course_id=cou.cid LEFT JOIN teacher tea ON cou.teacher_id=tea.tid WHERE tea.tname='爱因斯坦老师') s1
+LEFT JOIN
+(SELECT stu.sname sname,tea.tname FROM student stu LEFT JOIN score sc ON stu.sid=sc.student_id LEFT JOIN course cou ON sc.course_id=cou.cid LEFT JOIN teacher tea ON cou.teacher_id=tea.tid WHERE tea.tname='老王老师' )s2
+ON
+s1.sname=s2.sname WHERE s2.sname IS null
